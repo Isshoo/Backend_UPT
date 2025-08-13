@@ -1,12 +1,12 @@
 from flask_cors import CORS
 from flask import Flask
 
-from app.config import FLASK_ENV, FLASK_DEBUG, FLASK_HOST, FLASK_PORT
-from app.utils.logger import app_logger
+from src.config.environment import env
+from src.utils.logger import app_logger
 
 import builtins
 
-from app.api.routes import routes_bp
+from src.api.routes import routes_bp
 
 
 def disable_print(*args, **kwargs):
@@ -19,7 +19,7 @@ def create_app():
     CORS(app)
 
     # ===== KONFIGURASI PRODUCTION =====
-    if FLASK_ENV == 'production':
+    if env.FLASK_ENV == 'production':
         # 1. Nonaktifkan semua print()
         builtins.print = disable_print
 
@@ -33,4 +33,4 @@ def create_app():
 
 
 app = create_app()
-app.run(host=FLASK_HOST, port=FLASK_PORT, debug=FLASK_DEBUG)
+app.run(host=env.FLASK_HOST, port=env.FLASK_PORT, debug=env.FLASK_DEBUG)
